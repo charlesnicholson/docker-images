@@ -1,6 +1,5 @@
 FROM ubuntu:18.04
 MAINTAINER Charles Nicholson <charles.nicholson@gmail.com>
-LABEL="Clang Linux"
 
 RUN apt-get update && apt-get install \
         clang \

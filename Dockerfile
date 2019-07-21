@@ -6,10 +6,8 @@ RUN apt-get update && apt-get install -y -q \
         gcc \
         g++ \
         clang \
+        gcc-multilib \
         binutils-dev \
-        multilib \
         python3 \
         cmake \
         ninja-build
-
-CMD ["/bin/bash"]

@@ -2,6 +2,7 @@ FROM ubuntu:18.04
 MAINTAINER Charles Nicholson <charles.nicholson@gmail.com>
 
 RUN apt-get update && apt-get install -y -q \
+        ca-certificates \
         git \
         gcc \
         g++ \

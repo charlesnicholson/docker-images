@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y -q \
         g++ \
         clang \
         gcc-multilib \
+        g++-multilib \
         binutils-dev \
         python3 \
         cmake \

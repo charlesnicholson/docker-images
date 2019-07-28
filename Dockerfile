@@ -12,7 +12,7 @@ RUN apt-get update && apt-get install -y -q \
         gcc-multilib \
         g++-multilib \
         binutils-dev \
-        python3 \
+        python3-pip \
         cmake \
         ninja-build
 

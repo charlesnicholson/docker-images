@@ -3,9 +3,9 @@ MAINTAINER Charles Nicholson <charles.nicholson@gmail.com>
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && apt-get install -y software-properties-common
+RUN apt-get update && apt-get install -q -y software-properties-common
 RUN add-apt-repository universe
-RUN apt-get update && apt-get install -q \
+RUN apt-get update && apt-get install -q -y \
         ca-certificates \
         git \
         gcc \

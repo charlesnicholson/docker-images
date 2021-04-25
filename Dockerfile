@@ -1,4 +1,4 @@
-FROM ubuntu:latest
+FROM ubuntu:rolling
 MAINTAINER Charles Nicholson <charles.nicholson@gmail.com>
 
 ARG DEBIAN_FRONTEND=noninteractive
@@ -14,11 +14,9 @@ RUN apt-get update && apt-get install -q -y \
         gcc-multilib \
         g++-multilib \
         binutils-dev \
-        python3.9 \
         python3-pip \
         cmake \
         ninja-build
 
-RUN sudo update-alternatives  --set python3 $(find / -type f -name python3.9)
 RUN python3 -m pip install --upgrade pip setuptools
 RUN python3 -m pip install pylint

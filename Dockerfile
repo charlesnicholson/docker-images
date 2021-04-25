@@ -19,5 +19,6 @@ RUN apt-get update && apt-get install -q -y \
         cmake \
         ninja-build
 
+RUN sudo update-alternatives  --set python3 $(find / -type f -name python3.9)
 RUN python3 -m pip install --upgrade pip setuptools
 RUN python3 -m pip install pylint

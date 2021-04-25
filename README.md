@@ -1,2 +1,1 @@
-# circleci-images
-dockerfiles for containers on circleci
+Dockerfile for my "nano" project linux builds. Rolling Ubuntu, latest gcc + clang, pylint, etc

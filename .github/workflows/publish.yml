@@ -1,0 +1,28 @@
+name: Publish image to GCR
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  Publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish
+        uses: machine-learning-apps/gpr-docker-publish@master
+        with:
+          IMAGE_NAME: 'docker-image'
+          TAG: 'latest'
+          DOCKERFILE_PATH: 'Dockerfile'
+        env:
+          GITHUB_TOKEN: ${{ secrets.PACKAGE_WRITE_TOKEN }}
+      - name: Print Results
+        run: |
+          echo "The name:tag of the Docker Image is: $VAR1"
+          echo "The docker image is hosted at $VAR2"
+        env:
+          VAR1: ${{ steps.docker.outputs.IMAGE_SHA_NAME }}
+          VAR2: ${{ steps.docker.outputs.IMAGE_URL }}

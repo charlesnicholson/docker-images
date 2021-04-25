@@ -1,10 +1,12 @@
-name: Publish image to GCR
+name: Publish image to GitHub Package Registry
 
 on:
   workflow_dispatch:
   push:
     branches:
       - main
+  schedule:
+    - cron: '0 0 * * 0'  # Weekly
 
 jobs:
   Publish:
@@ -19,10 +21,3 @@ jobs:
           DOCKERFILE_PATH: 'Dockerfile'
         env:
           GITHUB_TOKEN: ${{ secrets.PACKAGE_WRITE_TOKEN }}
-      - name: Print Results
-        run: |
-          echo "The name:tag of the Docker Image is: $VAR1"
-          echo "The docker image is hosted at $VAR2"
-        env:
-          VAR1: ${{ steps.docker.outputs.IMAGE_SHA_NAME }}
-          VAR2: ${{ steps.docker.outputs.IMAGE_URL }}

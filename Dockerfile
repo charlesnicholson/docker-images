@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:latest
 MAINTAINER Charles Nicholson <charles.nicholson@gmail.com>
 
 ARG DEBIAN_FRONTEND=noninteractive

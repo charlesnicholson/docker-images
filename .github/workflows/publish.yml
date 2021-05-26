@@ -8,6 +8,7 @@ on:
   schedule:
     - cron: '0 0 * * 0'  # Weekly
 
+
 jobs:
   Publish:
     runs-on: ubuntu-latest
@@ -20,4 +21,18 @@ jobs:
           TAG: 'latest'
           DOCKERFILE_PATH: 'Dockerfile'
         env:
-          GITHUB_TOKEN: ${{ secrets.PACKAGE_WRITE_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  publish-gchr:
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v2
+      - name: Publish
+        run: |
+          docker build $GITHUB_WORKSPACE --tag "docker-image"
+          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+          docker tag docker-image ghcr.io/charlesnicholson/docker-image:latest
+          docker push ghcr.io/charlesnicholson/docker-image:latest

@@ -12,22 +12,11 @@ on:
 jobs:
   Publish:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Publish
-        uses: machine-learning-apps/gpr-docker-publish@master
-        with:
-          IMAGE_NAME: 'docker-image'
-          TAG: 'latest'
-          DOCKERFILE_PATH: 'Dockerfile'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-  publish-gchr:
-    runs-on: ubuntu-latest
     permissions:
       packages: write
       contents: read
+
     steps:
       - uses: actions/checkout@v2
       - name: Publish

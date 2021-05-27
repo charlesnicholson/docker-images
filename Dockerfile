@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -q -y \
         gcc \
         g++ \
         clang \
+        docker \
         gcc-multilib \
         g++-multilib \
         binutils-dev \
@@ -18,5 +19,5 @@ RUN apt-get update && apt-get install -q -y \
         cmake \
         ninja-build
 
-RUN python3 -m pip install --upgrade pip setuptools
+RUN python3 -m pip install --upgrade pip setuptools wheel
 RUN python3 -m pip install pylint

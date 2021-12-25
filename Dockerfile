@@ -22,6 +22,7 @@ RUN apt-get install -q -y \
       g++-multilib \
       binutils-dev \
       python3-pip \
+      python3-venv \
       cmake \
       ninja-build \
       wget \

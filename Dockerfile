@@ -4,14 +4,14 @@ WORKDIR /work
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && \
-    apt-get install -q -y apt-utils && \
-    apt-get upgrade -y && \
-    apt-get install -q -y software-properties-common && \
-    add-apt-repository universe
-
-RUN apt-get update && \
+RUN add-apt-repository universe && \
+    apt-get update && \
     apt-get install -q -y \
+      apt-utils \
+      software-properties-common && \
+    apt-get upgrade -y
+
+RUN apt-get install -q -y \
       ca-certificates \
       git \
       gcc \

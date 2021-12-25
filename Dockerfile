@@ -21,6 +21,7 @@ RUN apt-get install -q -y \
       gcc-multilib \
       g++-multilib \
       binutils-dev \
+      python3 \
       python3-pip \
       python3-venv \
       cmake \

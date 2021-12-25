@@ -5,7 +5,7 @@ WORKDIR /work
 ARG DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update && \
-    apt-get install -q -y apt-utils \
+    apt-get install -q -y apt-utils && \
     apt-get upgrade -y && \
     apt-get install -q -y software-properties-common && \
     add-apt-repository universe

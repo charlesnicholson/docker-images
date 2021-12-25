@@ -30,13 +30,14 @@ RUN apt-get install -q -y \
       bzip2 && \
     apt-get clean
 
-RUN wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2 | tar -xj
-
 ENV PATH "/work/gcc-arm-none-eabi-10.3-2021.10/bin:$PATH"
 
-RUN arm-none-eabi-gcc --version
+RUN wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2 | tar -xj && \
+    arm-none-eabi-gcc --version
 
-RUN python3 -m pip install --upgrade pip setuptools && \
-    python3 -m pip install \
+RUN python3 -m venv venv && \
+    . ./venv/bin/activate && \
+    python -m pip install --upgrade pip setuptools && \
+    python -m pip install \
       wheel \
       pylint

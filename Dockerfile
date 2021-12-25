@@ -32,5 +32,9 @@ RUN wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021
 
 ENV PATH "/work/gcc-arm-none-eabi-10.3-2021.10/bin:$PATH"
 
-RUN python3 -m pip install --upgrade pip setuptools wheel
-RUN python3 -m pip install pylint
+RUN arm-none-eabi-gcc --version
+
+RUN python3 -m pip install --upgrade pip setuptools && \
+    python3 -m pip install \
+      wheel \
+      pylint

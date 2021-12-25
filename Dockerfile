@@ -4,11 +4,11 @@ WORKDIR /work
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-RUN add-apt-repository universe && \
-    apt-get update && \
+RUN apt-get update && \
     apt-get install -q -y \
       apt-utils \
       software-properties-common && \
+    add-apt-repository universe && \
     apt-get upgrade -y
 
 RUN apt-get install -q -y \

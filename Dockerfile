@@ -36,7 +36,7 @@ RUN apt-get update && \
     \
     apt-get clean && \
     \
-    wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu-rm/10.3-2021.10/gcc-arm-none-eabi-10.3-2021.10-x86_64-linux.tar.bz2 | tar -xj && \
+    wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu/11.2-2022.02/binrel/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi.tar.xz | tar -xj && \
     \
     arm-none-eabi-gcc --version && \
     \

@@ -4,7 +4,7 @@ WORKDIR /work
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV PATH "/work/gcc-arm-none-eabi-10.3-2021.10/bin:$PATH"
+ENV PATH "/work/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin:$PATH"
 
 RUN apt-get update && \
     \

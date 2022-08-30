@@ -6,7 +6,7 @@ ARG DEBIAN_FRONTEND=noninteractive
 ENV PATH "/work/arm-gnu-toolchain-11.3.rel1-x86_64-arm-none-eabi/bin:$PATH"
 
 RUN wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu/11.3.rel1/binrel/arm-gnu-toolchain-11.3.rel1-x86_64-arm-none-eabi.tar.xz | tar -xJvf - && \
-    arm-none-eabi-gcc --version &&
+    arm-none-eabi-gcc --version
 
 RUN apt-get update && \
     apt-get install -q -y apt-utils software-properties-common && \
@@ -31,7 +31,6 @@ RUN apt-get update && \
       wget \
       bzip2 && \
     apt-get clean && \
-    \
     \
     python3 -m venv venv && . ./venv/bin/activate && \
     python -m pip install --upgrade pip setuptools wheel && \

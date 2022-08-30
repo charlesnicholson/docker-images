@@ -1,10 +1,9 @@
 FROM ubuntu:rolling
-MAINTAINER Charles Nicholson <charles.nicholson@gmail.com>
 WORKDIR /work
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV PATH "/work/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi/bin:$PATH"
+ENV PATH "/work/gcc-arm-11.3rel1-x86_64-arm-none-eabi/bin:$PATH"
 
 RUN apt-get update && \
     \
@@ -36,7 +35,7 @@ RUN apt-get update && \
     \
     apt-get clean && \
     \
-    wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu/11.2-2022.02/binrel/gcc-arm-11.2-2022.02-x86_64-arm-none-eabi.tar.xz | tar -xJvf - && \
+    wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu/11.3.rel1/binrel/arm-gnu-toolchain-11.3.rel1-x86_64-arm-none-eabi.tar.xz | tar -xJvf - && \
     \
     arm-none-eabi-gcc --version && \
     \

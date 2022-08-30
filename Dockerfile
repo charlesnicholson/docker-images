@@ -5,16 +5,17 @@ ARG DEBIAN_FRONTEND=noninteractive
 
 ENV PATH "/work/arm-gnu-toolchain-11.3.rel1-x86_64-arm-none-eabi/bin:$PATH"
 
-RUN wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu/11.3.rel1/binrel/arm-gnu-toolchain-11.3.rel1-x86_64-arm-none-eabi.tar.xz | tar -xJvf - && \
-    arm-none-eabi-gcc --version
-
 RUN apt-get update && \
     apt-get install -q -y apt-utils software-properties-common && \
     add-apt-repository universe && \
     apt-get upgrade -y && \
     \
-    apt-get install -q -y \
-      ca-certificates \
+    apt-get install -q -y ca-certificates wget
+
+RUN wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu/11.3.rel1/binrel/arm-gnu-toolchain-11.3.rel1-x86_64-arm-none-eabi.tar.xz | tar -xJvf - && \
+    arm-none-eabi-gcc --version
+
+RUN apt-get install -q -y \
       git \
       gcc \
       g++ \
@@ -28,7 +29,6 @@ RUN apt-get update && \
       python3-venv \
       cmake \
       ninja-build \
-      wget \
       bzip2 && \
     apt-get clean && \
     \

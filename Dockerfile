@@ -3,7 +3,7 @@ WORKDIR /work
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV PATH "/work/arm-gnu-toolchain-11.3.rel1-x86_64-arm-none-eabi/bin:$PATH"
+ENV PATH "/work/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi/bin:$PATH"
 
 RUN apt-get update && \
     apt-get install -q -y apt-utils software-properties-common && \
@@ -12,7 +12,7 @@ RUN apt-get update && \
     \
     apt-get install -q -y ca-certificates wget
 
-RUN wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu/11.3.rel1/binrel/arm-gnu-toolchain-11.3.rel1-x86_64-arm-none-eabi.tar.xz | tar -xJvf - && \
+RUN wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu/12.2.rel1/binrel/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz | tar -xJvf - && \
     arm-none-eabi-gcc --version
 
 RUN apt-get install -q -y \

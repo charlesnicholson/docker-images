@@ -34,4 +34,4 @@ RUN apt-get install -q -y \
     \
     python3 -m venv venv && . ./venv/bin/activate && \
     python -m pip install --upgrade pip setuptools wheel && \
-    python -m pip install pylint
+    python -m pip install typing-extensions pylint && python -m pylint --version

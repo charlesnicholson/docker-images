@@ -3,7 +3,7 @@ WORKDIR /work
 
 ARG DEBIAN_FRONTEND=noninteractive
 
-ENV PATH "/work/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi/bin:$PATH"
+ENV PATH "/work/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi/bin:$PATH"
 
 RUN apt-get update && \
     apt-get install -q -y apt-utils software-properties-common && \

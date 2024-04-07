@@ -11,7 +11,7 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -q -y ca-certificates wget curl
 
-RUN wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu/12.2.rel1/binrel/arm-gnu-toolchain-12.2.rel1-x86_64-arm-none-eabi.tar.xz | tar -xJvf - && \
+RUN wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz | tar -xJvf - && \
     arm-none-eabi-gcc --version
 
 RUN apt-get install -q -y \

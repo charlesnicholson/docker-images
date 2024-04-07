@@ -18,7 +18,7 @@ jobs:
       contents: read
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
       - name: Publish
         run: |
           docker build $GITHUB_WORKSPACE --tag "docker-image"

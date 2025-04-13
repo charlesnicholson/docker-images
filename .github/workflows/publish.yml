@@ -18,7 +18,7 @@ jobs:
             runner: ubuntu-latest
           - arch: arm64
             toolchain_arch: aarch64
-            runner: ubuntu-22.04  # GitHub's native arm64 runners
+            runner: ubuntu-24.04-arm
 
     runs-on: ["${{ matrix.runner }}"]
 

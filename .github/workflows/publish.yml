@@ -20,7 +20,7 @@ jobs:
             toolchain_arch: aarch64
             runner: ubuntu-22.04  # GitHub's native arm64 runners
 
-    runs-on: ${{ matrix.runner }}
+    runs-on: ["${{ matrix.runner }}"]
 
     permissions:
       packages: write

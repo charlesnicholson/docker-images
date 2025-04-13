@@ -27,8 +27,6 @@ RUN apt-get install -q -y \
       gcc \
       g++ \
       clang \
-      gcc-multilib \
-      g++-multilib \
       binutils-dev \
       python3 \
       python3-pip \
@@ -36,6 +34,9 @@ RUN apt-get install -q -y \
       cmake \
       ninja-build \
       bzip2 && \
+    if [ "$TOOLCHAIN_ARCH" = "x86_64" ]; then \
+      apt-get install -q -y gcc-multilib g++-multilib; \
+    fi && \
     apt-get clean && \
     \
     python3 -m venv venv && . ./venv/bin/activate && \

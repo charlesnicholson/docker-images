@@ -9,7 +9,7 @@ jobs:
     strategy:
       matrix:
         include:
-          - arch: x64
+          - arch: amd64
             toolchain_arch: x86_64
             runner: ubuntu-latest
           - arch: arm64

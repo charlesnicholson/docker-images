@@ -8,10 +8,19 @@ on:
   schedule:
     - cron: '0 0 * * 0'  # Weekly
 
-
 jobs:
-  Publish:
-    runs-on: ubuntu-latest
+  build-and-push:
+    strategy:
+      matrix:
+        include:
+          - arch: amd64
+            toolchain_arch: x86_64
+            runner: ubuntu-latest
+          - arch: arm64
+            toolchain_arch: aarch64
+            runner: ubuntu-24.04-arm
+
+    runs-on: ["${{ matrix.runner }}"]
 
     permissions:
       packages: write
@@ -19,9 +28,34 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - name: Publish
+
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Build and push image for ${{ matrix.arch }}
         run: |
-          docker build $GITHUB_WORKSPACE --tag "docker-image"
-          echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-          docker tag docker-image ghcr.io/charlesnicholson/docker-image:latest
-          docker push ghcr.io/charlesnicholson/docker-image:latest
+          docker build . \
+            --build-arg TOOLCHAIN_ARCH=${{ matrix.toolchain_arch }} \
+            -t ghcr.io/charlesnicholson/docker-image:${{ matrix.arch }}
+
+          docker push ghcr.io/charlesnicholson/docker-image:${{ matrix.arch }}
+
+  publish-latest:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    permissions:
+      packages: write
+
+    steps:
+      - name: Log in to GHCR
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+      - name: Create and push multi-arch manifest
+        run: |
+          docker manifest create ghcr.io/charlesnicholson/docker-image:latest \
+            --amend ghcr.io/charlesnicholson/docker-image:amd64 \
+            --amend ghcr.io/charlesnicholson/docker-image:arm64
+
+          docker manifest push ghcr.io/charlesnicholson/docker-image:latest
+

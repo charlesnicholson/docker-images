@@ -2,8 +2,13 @@ FROM ubuntu:rolling
 WORKDIR /work
 
 ARG DEBIAN_FRONTEND=noninteractive
+ARG TOOLCHAIN_ARCH
 
-ENV PATH "/work/arm-gnu-toolchain-13.2.Rel1-x86_64-arm-none-eabi/bin:$PATH"
+ARG TOOLCHAIN_VERSION=14.2.rel1
+ARG TOOLCHAIN_FILENAME=arm-gnu-toolchain-${TOOLCHAIN_VERSION}-${TOOLCHAIN_ARCH}-arm-none-eabi
+ARG TOOLCHAIN_URL=https://developer.arm.com/-/media/Files/downloads/gnu/${TOOLCHAIN_VERSION}/binrel/${TOOLCHAIN_FILENAME}.tar.xz
+
+ENV PATH="/work/${TOOLCHAIN_FILENAME}/bin:$PATH"
 
 RUN apt-get update && \
     apt-get install -q -y apt-utils software-properties-common && \
@@ -11,16 +16,11 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -q -y ca-certificates wget curl
 
-RUN wget -qO- https://developer.arm.com/-/media/Files/downloads/gnu/13.2.rel1/binrel/arm-gnu-toolchain-13.2.rel1-x86_64-arm-none-eabi.tar.xz | tar -xJvf - && \
-    arm-none-eabi-gcc --version
-
 RUN apt-get install -q -y \
       git \
       gcc \
       g++ \
       clang \
-      gcc-multilib \
-      g++-multilib \
       binutils-dev \
       python3 \
       python3-pip \
@@ -28,8 +28,16 @@ RUN apt-get install -q -y \
       cmake \
       ninja-build \
       bzip2 && \
+    \
+    if [ "$TOOLCHAIN_ARCH" = "x86_64" ]; then \
+      apt-get install -q -y gcc-multilib g++-multilib; \
+    fi && \
+    \
     apt-get clean && \
     \
     python3 -m venv venv && . ./venv/bin/activate && \
     python -m pip install --upgrade pip setuptools wheel && \
     python -m pip install typing-extensions pylint && python -m pylint --version
+
+RUN wget -qO- "${TOOLCHAIN_URL}" | tar -xJvf - && arm-none-eabi-gcc --version
+

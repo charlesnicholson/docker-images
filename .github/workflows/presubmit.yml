@@ -36,6 +36,6 @@ jobs:
     if: always()
     steps:
       - name: Fail with upstream jobs
-        if: needs.build.result != 'success')
+        if: needs.build.result != 'success'
         run: exit 1
 

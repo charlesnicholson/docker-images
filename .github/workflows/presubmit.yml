@@ -5,10 +5,28 @@ on:
     branches: [ main ]
 
 jobs:
-  Build:
-    runs-on: ubuntu-latest
+  build:
+    strategy:
+      matrix:
+        include:
+          - arch: x64
+            toolchain_arch: x86_64
+            runner: ubuntu-latest
+          - arch: arm64
+            toolchain_arch: aarch64
+            runner: ubuntu-22.04
+
+    runs-on: ${{ matrix.runner }}
+
+    name: Build (${{ matrix.arch }})
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Build
-        run: docker build .
+
+      - name: Docker build
+        run: |
+          docker build . \
+            --build-arg TOOLCHAIN_ARCH=${{ matrix.toolchain_arch }} \
+            -t test-image:${{ matrix.arch }}
+

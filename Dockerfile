@@ -22,6 +22,9 @@ RUN apt-get install -q -y \
       g++ \
       clang \
       binutils-dev \
+      gcc-avr \
+      binutils-avr \
+      avr-libc \
       python3 \
       python3-pip \
       python3-venv \
@@ -40,4 +43,5 @@ RUN apt-get install -q -y \
     python -m pip install typing-extensions pylint && python -m pylint --version
 
 RUN wget -qO- "${TOOLCHAIN_URL}" | tar -xJvf - && arm-none-eabi-gcc --version
+RUN avr-gcc --version
 

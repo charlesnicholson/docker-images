@@ -42,6 +42,7 @@ RUN apt-get install -q -y \
     python -m pip install --upgrade pip setuptools wheel && \
     python -m pip install typing-extensions pylint pyright && \
     curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    source $HOME/.local/bin/env && \
     uv tool install ruff@latest
 
 RUN wget -qO- "${TOOLCHAIN_URL}" | tar -xJvf - && arm-none-eabi-gcc --version

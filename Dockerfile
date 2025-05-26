@@ -8,7 +8,12 @@ ARG TOOLCHAIN_VERSION=14.2.rel1
 ARG TOOLCHAIN_FILENAME=arm-gnu-toolchain-${TOOLCHAIN_VERSION}-${TOOLCHAIN_ARCH}-arm-none-eabi
 ARG TOOLCHAIN_URL=https://developer.arm.com/-/media/Files/downloads/gnu/${TOOLCHAIN_VERSION}/binrel/${TOOLCHAIN_FILENAME}.tar.xz
 
-ENV PATH="/work/${TOOLCHAIN_FILENAME}/bin:$PATH"
+ENV PATH="/work/${TOOLCHAIN_FILENAME}/bin:/root/.local/bin/:$PATH"
+
+COPY docker-entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ADD https://astral.sh/uv/install.sh /uv-installer.sh
 
 RUN apt-get update && \
     apt-get install -q -y apt-utils software-properties-common && \
@@ -38,9 +43,10 @@ RUN apt-get install -q -y \
     \
     apt-get clean && \
     \
-    python3 -m venv venv && . ./venv/bin/activate && \
-    python -m pip install --upgrade pip setuptools wheel && \
-    python -m pip install typing-extensions pylint && python -m pylint --version
+    sh /uv-installer.sh && rm /uv-installer.sh && \
+    uv venv venv --python 3.13 && . ./venv/bin/activate && \
+    uv pip install --upgrade setuptools && \
+    uv pip install wheel build typing-extensions pylint pyright ruff
 
 RUN wget -qO- "${TOOLCHAIN_URL}" | tar -xJvf - && arm-none-eabi-gcc --version
 RUN avr-gcc --version

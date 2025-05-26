@@ -37,7 +37,7 @@ RUN apt-get install -q -y \
     \
     apt-get clean
 
-RUN wget -qO- "${TOOLCHAIN_URL}" | tar -xJvf - 
+RUN wget -qO- "${TOOLCHAIN_URL}" | tar -xJf - 
 
 RUN apt-get install -q -y python3 && \
     sh /uv-installer.sh && rm /uv-installer.sh && \

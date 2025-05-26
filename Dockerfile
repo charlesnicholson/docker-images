@@ -8,7 +8,9 @@ ARG TOOLCHAIN_VERSION=14.2.rel1
 ARG TOOLCHAIN_FILENAME=arm-gnu-toolchain-${TOOLCHAIN_VERSION}-${TOOLCHAIN_ARCH}-arm-none-eabi
 ARG TOOLCHAIN_URL=https://developer.arm.com/-/media/Files/downloads/gnu/${TOOLCHAIN_VERSION}/binrel/${TOOLCHAIN_FILENAME}.tar.xz
 
-ENV PATH="/work/${TOOLCHAIN_FILENAME}/bin:$PATH"
+ENV PATH="/work/${TOOLCHAIN_FILENAME}/bin:/root/.local/bin/:$PATH"
+
+ADD https://astral.sh/uv/install.sh /uv-installer.sh
 
 RUN apt-get update && \
     apt-get install -q -y apt-utils software-properties-common && \
@@ -41,8 +43,7 @@ RUN apt-get install -q -y \
     python3 -m venv venv && . ./venv/bin/activate && \
     python -m pip install --upgrade pip setuptools wheel && \
     python -m pip install typing-extensions pylint pyright && \
-    curl -LsSf https://astral.sh/uv/install.sh | sh && \
-    source $HOME/.local/bin/env && \
+    sh /uv-installer.sh && rm /uv-installer.sh && \
     uv tool install ruff@latest
 
 RUN wget -qO- "${TOOLCHAIN_URL}" | tar -xJvf - && arm-none-eabi-gcc --version

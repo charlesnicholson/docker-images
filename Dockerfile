@@ -18,12 +18,6 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -q -y ca-certificates wget curl
 
-RUN apt-get install -q -y python3 && \
-    sh /uv-installer.sh && rm /uv-installer.sh && \
-    uv venv venv --python 3.13 && . ./venv/bin/activate && \
-    uv pip install --upgrade setuptools && \
-    uv pip install wheel build typing-extensions pylint pyright ruff
-
 RUN apt-get install -q -y \
       git \
       gcc \
@@ -33,7 +27,6 @@ RUN apt-get install -q -y \
       gcc-avr \
       binutils-avr \
       avr-libc \
-      python3 \
       cmake \
       ninja-build \
       bzip2 && \
@@ -44,5 +37,12 @@ RUN apt-get install -q -y \
     \
     apt-get clean
 
-RUN wget -qO- "${TOOLCHAIN_URL}" | tar -xJvf - && arm-none-eabi-gcc --version
-RUN avr-gcc --version
+RUN wget -qO- "${TOOLCHAIN_URL}" | tar -xJvf - 
+
+RUN apt-get install -q -y python3 && \
+    sh /uv-installer.sh && rm /uv-installer.sh && \
+    uv venv venv --python 3.13 && . ./venv/bin/activate && \
+    uv pip install --upgrade setuptools && \
+    uv pip install wheel build typing-extensions pylint pyright ruff
+
+RUN arm-none-eabi-gcc --version && avr-gcc --version

@@ -51,3 +51,4 @@ RUN apt-get install -q -y \
 RUN wget -qO- "${TOOLCHAIN_URL}" | tar -xJvf - && arm-none-eabi-gcc --version
 RUN avr-gcc --version
 
+ENTRYPOINT ["/entrypoint.sh"]

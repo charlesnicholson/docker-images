@@ -12,6 +12,7 @@ ENV PATH="/work/${TOOLCHAIN_FILENAME}/bin:/root/.local/bin/:$PATH"
 
 COPY docker-entrypoint.sh /entrypoint.sh
 RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]
 
 ADD https://astral.sh/uv/install.sh /uv-installer.sh
 
@@ -20,6 +21,12 @@ RUN apt-get update && \
     add-apt-repository universe && \
     apt-get upgrade -y && \
     apt-get install -q -y ca-certificates wget curl
+
+RUN apt-get install -q -y python3 && \
+    sh /uv-installer.sh && rm /uv-installer.sh && \
+    uv venv venv --python 3.13 && . ./venv/bin/activate && \
+    uv pip install --upgrade setuptools && \
+    uv pip install wheel build typing-extensions pylint pyright ruff
 
 RUN apt-get install -q -y \
       git \
@@ -31,8 +38,6 @@ RUN apt-get install -q -y \
       binutils-avr \
       avr-libc \
       python3 \
-      python3-pip \
-      python3-venv \
       cmake \
       ninja-build \
       bzip2 && \
@@ -41,14 +46,7 @@ RUN apt-get install -q -y \
       apt-get install -q -y gcc-multilib g++-multilib; \
     fi && \
     \
-    apt-get clean && \
-    \
-    sh /uv-installer.sh && rm /uv-installer.sh && \
-    uv venv venv --python 3.13 && . ./venv/bin/activate && \
-    uv pip install --upgrade setuptools && \
-    uv pip install wheel build typing-extensions pylint pyright ruff
+    apt-get clean
 
 RUN wget -qO- "${TOOLCHAIN_URL}" | tar -xJvf - && arm-none-eabi-gcc --version
 RUN avr-gcc --version
-
-ENTRYPOINT ["/entrypoint.sh"]

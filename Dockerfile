@@ -8,11 +8,7 @@ ARG TOOLCHAIN_VERSION=14.2.rel1
 ARG TOOLCHAIN_FILENAME=arm-gnu-toolchain-${TOOLCHAIN_VERSION}-${TOOLCHAIN_ARCH}-arm-none-eabi
 ARG TOOLCHAIN_URL=https://developer.arm.com/-/media/Files/downloads/gnu/${TOOLCHAIN_VERSION}/binrel/${TOOLCHAIN_FILENAME}.tar.xz
 
-ENV PATH="/work/${TOOLCHAIN_FILENAME}/bin:/root/.local/bin/:$PATH"
-
-COPY docker-entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh
-ENTRYPOINT ["/entrypoint.sh"]
+ENV PATH="/work/${TOOLCHAIN_FILENAME}/bin:/root/.local/bin/:/work/venv/bin:$PATH"
 
 ADD https://astral.sh/uv/install.sh /uv-installer.sh
 

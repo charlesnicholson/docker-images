@@ -29,7 +29,7 @@ jobs:
           docker build . \
             --build-arg TOOLCHAIN_ARCH=${{ matrix.toolchain_arch }} \
             -t test-image:${{ matrix.arch }}
-          docker run -it test-image:${{ matrix.arch }} \
+          docker run --rm test-image:${{ matrix.arch }} \
             python -c "import sys; print(sys.prefix)"
 
   all-checks-pass:

@@ -40,7 +40,9 @@ RUN apt-get install -q -y \
     \
     python3 -m venv venv && . ./venv/bin/activate && \
     python -m pip install --upgrade pip setuptools wheel && \
-    python -m pip install typing-extensions pylint && python -m pylint --version
+    python -m pip install typing-extensions pylint pyright && \
+    curl -LsSf https://astral.sh/uv/install.sh | sh && \
+    uv tool install ruff@latest
 
 RUN wget -qO- "${TOOLCHAIN_URL}" | tar -xJvf - && arm-none-eabi-gcc --version
 RUN avr-gcc --version

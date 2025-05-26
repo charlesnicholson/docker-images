@@ -45,8 +45,8 @@ RUN apt-get install -q -y \
     \
     sh /uv-installer.sh && rm /uv-installer.sh && \
     uv venv venv --python 3.13 && . ./venv/bin/activate && \
-    uv install --updgrade setuptools && \
-    uv install wheel build typing-extensions pylint pyright ruff
+    uv pip install --upgrade setuptools && \
+    uv pip install wheel build typing-extensions pylint pyright ruff
 
 RUN wget -qO- "${TOOLCHAIN_URL}" | tar -xJvf - && arm-none-eabi-gcc --version
 RUN avr-gcc --version

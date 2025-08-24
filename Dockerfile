@@ -23,7 +23,7 @@ RUN apt-get install -q -y \
       nodejs \
       npm \
       fuse \
-      netstat
+      net-tools
 
 RUN apt-get install -y -q \
       at-spi2-common \

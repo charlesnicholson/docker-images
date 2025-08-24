@@ -45,11 +45,13 @@ RUN apt-get install -q -y python3 && \
     sh /uv-installer.sh && rm /uv-installer.sh && \
     uv venv venv --python 3.13 && . ./venv/bin/activate && \
     uv pip install --upgrade setuptools && \
-    uv pip install wheel build typing-extensions pylint pyright ruff
+    uv pip install wheel build typing-extensions pylint pyright ruff ty
 
 RUN arm-none-eabi-gcc --version && avr-gcc --version
 
-RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage \
+RUN curl \
+    -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage \
+    -o nvim.appimage \
     && chmod u+x nvim.appimage \
     && mv nvim.appimage /usr/bin/nvim
 

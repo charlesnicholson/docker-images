@@ -22,7 +22,43 @@ RUN apt-get install -q -y \
       xvfb \
       nodejs \
       npm \
-      fuse 
+      fuse \
+      netstat
+
+RUN apt-get install -y -q \
+      at-spi2-common \
+      fontconfig \
+      fonts-freefont-ttf \
+      fonts-ipafont-gothic \
+      fonts-liberation \
+      fonts-noto-color-emoji \
+      fonts-tlwg-loma-otf \
+      fonts-unifont \
+      fonts-wqy-zenhei \
+      libasound2-data \
+      libasound2t64 \
+      libatk-bridge2.0-0t64 \
+      libatk1.0-0t64 \
+      libatspi2.0-0t64 \
+      libavahi-client3 \
+      libavahi-common-data \
+      libavahi-common3 \
+      libcairo2 \
+      libcups2t64 \
+      libdatrie1 \
+      libfribidi0 \
+      libgraphite2-3 \
+      libharfbuzz0b \
+      libnspr4 \
+      libnss3 \
+      libpango-1.0-0 \
+      libthai-data \
+      libthai0 \
+      libxcb-render0 \
+      libxdamage1 \
+      libxkbcommon0 \
+      xfonts-cyrillic \
+      xfonts-scalable
 
 RUN apt-get install -q -y python3 && \
     sh /uv-installer.sh && rm /uv-installer.sh && \
@@ -62,7 +98,7 @@ RUN set -e && \
     curl -fLO "https://github.com/neovim/neovim/releases/latest/download/${NVIM_FILENAME}" && \
     tar xzf "${NVIM_FILENAME}" && \
     EXTRACTED_DIR=$(basename "${NVIM_FILENAME}" .tar.gz) && \
-    mv "${EXTRACTED_DIR}/bin/nvim" /usr/bin/ && \
+    cp -r "${EXTRACTED_DIR}"/* /usr/local/ && \
     rm -rf "${EXTRACTED_DIR}" "${NVIM_FILENAME}" && \
     nvim --version
 
@@ -75,3 +111,5 @@ RUN install -m 0755 -d /etc/apt/keyrings && \
       tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 RUN apt-get update && apt-get install -y docker-ce-cli && docker --version
+
+RUN rm -rf /var/lib/apt/lists/*

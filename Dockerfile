@@ -18,7 +18,7 @@ RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install -q -y ca-certificates wget curl unzip
 
-RUN apt-get install -q -y xvfb nodejs npm
+RUN apt-get install -q -y xvfb nodejs npm fuse
 
 RUN apt-get install -q -y \
       git \
@@ -49,8 +49,10 @@ RUN apt-get install -q -y python3 && \
 
 RUN arm-none-eabi-gcc --version && avr-gcc --version
 
-RUN add-apt-repository ppa:neovim-ppa/stable -y && \
-    apt-get update && apt-get install -y neovim
+RUN curl -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage \
+    && chmod u+x nvim.appimage \
+    && mv nvim.appimage /usr/bin/nvim
+
 RUN nvim --version
 
 RUN npx playwright install chromium --with-deps

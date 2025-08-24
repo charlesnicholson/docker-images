@@ -49,12 +49,19 @@ RUN apt-get install -q -y python3 && \
 
 RUN arm-none-eabi-gcc --version && avr-gcc --version
 
-RUN curl \
-    -LO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.appimage \
-    -o nvim.appimage \
-    && chmod u+x nvim.appimage \
-    && mv nvim.appimage /usr/bin/nvim
-
-RUN nvim --version
+RUN set -e && \
+    if [ "$TOOLCHAIN_ARCH" = "x86_64" ]; then \
+      NVIM_FILENAME="nvim-linux-x86_64.tar.gz"; \
+    elif [ "$TOOLCHAIN_ARCH" = "aarch64" ]; then \
+      NVIM_FILENAME="nvim-linux-arm64.tar.gz"; \
+    else \
+      echo "Unsupported architecture for Neovim: $TOOLCHAIN_ARCH" && exit 1; \
+    fi && \
+    curl -fLO "https://github.com/neovim/neovim/releases/latest/download/${NVIM_FILENAME}" && \
+    tar xzf "${NVIM_FILENAME}" && \
+    EXTRACTED_DIR=$(basename "${NVIM_FILENAME}" .tar.gz) && \
+    mv "${EXTRACTED_DIR}/bin/nvim" /usr/bin/ && \
+    rm -rf "${EXTRACTED_DIR}" "${NVIM_FILENAME}" && \
+    nvim --version
 
 RUN npx playwright install chromium --with-deps

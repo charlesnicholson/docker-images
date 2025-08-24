@@ -16,7 +16,9 @@ RUN apt-get update && \
     apt-get install -q -y apt-utils software-properties-common && \
     add-apt-repository universe && \
     apt-get upgrade -y && \
-    apt-get install -q -y ca-certificates wget curl
+    apt-get install -q -y ca-certificates wget curl unzip
+
+RUN apt-get install -q -y xvfb nodejs npm
 
 RUN apt-get install -q -y \
       git \
@@ -46,3 +48,9 @@ RUN apt-get install -q -y python3 && \
     uv pip install wheel build typing-extensions pylint pyright ruff
 
 RUN arm-none-eabi-gcc --version && avr-gcc --version
+
+RUN add-apt-repository ppa:neovim-ppa/stable -y && \
+    apt-get update && apt-get install -y neovim
+RUN nvim --version
+
+RUN npx playwright install chromium --with-deps

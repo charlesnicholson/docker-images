@@ -22,13 +22,7 @@ RUN apt-get install -q -y \
       xvfb \
       nodejs \
       npm \
-      fuse \
-      docker-ce \
-      docker-ce-cli \
-      containerd.io \
-      docker-buildx-plugin \
-      docker-compose-plugin && \
-    docker run hello-world
+      fuse 
 
 RUN apt-get install -q -y python3 && \
     sh /uv-installer.sh && rm /uv-installer.sh && \
@@ -71,3 +65,21 @@ RUN set -e && \
     mv "${EXTRACTED_DIR}/bin/nvim" /usr/bin/ && \
     rm -rf "${EXTRACTED_DIR}" "${NVIM_FILENAME}" && \
     nvim --version
+
+RUN install -m 0755 -d /etc/apt/keyrings && \
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc && \
+    chmod a+r /etc/apt/keyrings/docker.asc
+
+RUN echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu \
+  $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | \
+  tee /etc/apt/sources.list.d/docker.list > /dev/null && \
+  sudo apt-get update
+
+RUN apt-get install -q -y \
+      docker-ce \
+      docker-ce-cli \
+      containerd.io \
+      docker-buildx-plugin \
+      docker-compose-plugin && \
+    docker run hello-world

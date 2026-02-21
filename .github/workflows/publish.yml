@@ -34,11 +34,11 @@ jobs:
 
       - name: Build and push image for ${{ matrix.arch }}
         run: |
-          docker build . \
+          docker buildx build . \
+            --provenance=false \
             --build-arg TOOLCHAIN_ARCH=${{ matrix.toolchain_arch }} \
-            -t ghcr.io/charlesnicholson/docker-image:${{ matrix.arch }}
-
-          docker push ghcr.io/charlesnicholson/docker-image:${{ matrix.arch }}
+            -t ghcr.io/charlesnicholson/docker-image:${{ matrix.arch }} \
+            --push
 
   publish-latest:
     needs: build-and-push

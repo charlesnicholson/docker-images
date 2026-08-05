@@ -4,7 +4,7 @@ WORKDIR /work
 ARG DEBIAN_FRONTEND=noninteractive
 ARG TOOLCHAIN_ARCH
 
-ARG TOOLCHAIN_VERSION=14.2.rel1
+ARG TOOLCHAIN_VERSION=15.2.rel1
 ARG TOOLCHAIN_FILENAME=arm-gnu-toolchain-${TOOLCHAIN_VERSION}-${TOOLCHAIN_ARCH}-arm-none-eabi
 ARG TOOLCHAIN_URL=https://developer.arm.com/-/media/Files/downloads/gnu/${TOOLCHAIN_VERSION}/binrel/${TOOLCHAIN_FILENAME}.tar.xz
 
@@ -62,7 +62,7 @@ RUN apt-get install -y -q \
 
 RUN apt-get install -q -y python3 && \
     sh /uv-installer.sh && rm /uv-installer.sh && \
-    uv venv venv --python 3.13 && . ./venv/bin/activate && \
+    uv venv venv --python 3.14 && . ./venv/bin/activate && \
     uv pip install --upgrade setuptools && \
     uv pip install wheel build typing-extensions pylint pyright ruff ty
 
